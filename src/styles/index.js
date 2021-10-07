@@ -1,5 +1,7 @@
 export const colors = {
-  main: '#252525',
-  shadow: '#E0E0E0',
-  secondary: '#F1F1F1',
+  main: '#36384f',
+  shadow: '#F2EEE7',
+  secondary: '#ffffff',
+
+  graphColors: ['#44A4FC', '#FC5A51', '#38FCF3', '#FCA81E', '#2BFC7B'],
 };

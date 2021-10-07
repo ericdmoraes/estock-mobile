@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 // navigation
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {Text, View} from 'react-native';
+// Components
+import { Text, View, ScrollView } from 'react-native';
 
 // Services
 import getRealm from '../../services/realm';
@@ -18,16 +19,19 @@ import {
   ItemsContainer,
   EmptyListView,
   Label,
+  SmallText,
 } from './styles';
 
 // Components
 import CategoryList from '../../components/CategoryList/CategoryList';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ItemList from '../../components/ItemsList/ItemsList';
 
 const Home = () => {
   const navigation = useNavigation();
 
   const [categories, setCategories] = useState([]);
+  const [categoriesLength, setCategoriesLength] = useState(0);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -36,6 +40,7 @@ const Home = () => {
       const categoriesData = realm.objects('Category').sorted('name');
       const itemsData = realm.objects('Item').sorted('createdAt', true);
 
+      setCategoriesLength(categoriesData.length);
       setItems(itemsData || []);
       setCategories(categoriesData || []);
       realm.addListener('change', fetchData);
@@ -44,54 +49,54 @@ const Home = () => {
     fetchData();
   }, []);
 
-  const EmptyList = () => {
-    return (
-      <EmptyListView>
-        <Label>Você ainda não criou uma categoria!</Label>
-      </EmptyListView>
-    );
-  };
+  const EmptyList = () => (
+    <EmptyListView>
+      <Label>Você ainda não criou uma categoria!</Label>
+    </EmptyListView>
+  );
 
-  return (
-    <Container>
+  const CategoriesList = () =>
+    categoriesLength > 0 ? (
+      <View style={{ height: '22%' }}>
+        <List
+          data={categories}
+          renderItem={({ item }) => <CategoryList data={item} />}
+          keyExtractor={item => String(item.id)}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+    ) : (
+      <EmptyList />
+    );
+
+  const CategoriesHeader = () => (
+    <>
       <TitleContainer>
         <Title>Categorias</Title>
         <Button onPress={() => navigation.navigate('CreateProductCategory')}>
           <Icon name="add" color="#fff" size={42} />
         </Button>
       </TitleContainer>
-      {categories.length > 0 ? (
-        <List
-          data={categories}
-          renderItem={({item}) => <CategoryList data={item} />}
-          keyExtractor={(item) => String(item.id)}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-        />
-      ) : (
-        <EmptyList />
-      )}
-      <ItemsContainer>
-        <Title>Gráficos das vendas do mês</Title>
-        {/* <View>
-          <Text>Em construção</Text>
-        </View> */}
-        {/* {items.map((i) => {
-          var date = new Date(i.createdAt);
-          var day = date.getDay();
-          var month = date.getMonth();
-          var hours = date.getHours();
-          var minutes = date.getMinutes();
-          var seconds = date.getSeconds();
-          // console.log(hours, minutes, seconds, i.category);
-          return (
-            <Text key={i.id}>
-              {i.name} - {day}/{month}, {hours}:{minutes}:{seconds}
-            </Text>
-          );
-        })} */}
-      </ItemsContainer>
-    </Container>
+      <CategoriesList />
+    </>
+  );
+
+  const AllProductsSection = () => (
+    <>
+      <TitleContainer>
+        <Title>Todos os produtos</Title>
+        <SmallText>Ordenado por data</SmallText>
+      </TitleContainer>
+      <ItemList items={items} />
+    </>
+  );
+
+  return (
+    <>
+      <CategoriesHeader />
+      <AllProductsSection />
+    </>
   );
 };
 

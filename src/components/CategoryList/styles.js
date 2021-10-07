@@ -2,12 +2,13 @@ import styled from 'styled-components/native';
 
 import LinearGradient from 'react-native-linear-gradient';
 
-import {colors} from '../../styles/index';
+import { colors } from '../../styles/index';
 
 export const Container = styled.TouchableOpacity`
-  justify-content: center;
   align-items: center;
   padding: 10px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Label = styled.Text`
@@ -16,8 +17,8 @@ export const Label = styled.Text`
 
 export const ImageContainer = styled(LinearGradient).attrs({
   colors: [colors.main, colors.main, colors.main],
-  start: {x: 1.0, y: 0.0},
-  end: {x: 0.0, y: 1.0},
+  start: { x: 1.0, y: 0.0 },
+  end: { x: 0.0, y: 1.0 },
 })`
   width: 98px;
   height: 98px;

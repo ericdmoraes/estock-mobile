@@ -1,71 +1,100 @@
 import styled from 'styled-components/native';
 
-import {colors} from '../../styles/index';
+import { colors } from '../../styles/index';
+import LinearGradient from 'react-native-linear-gradient';
 
-export const Container = styled.TouchableOpacity`
+export const CardBackground = styled.TouchableOpacity`
   width: 95%;
+  height: 350px;
   align-self: center;
   background-color: ${colors.shadow};
   margin-bottom: 15px;
-  padding: 8px;
   border-width: 0.5px;
   border-color: silver;
   border-radius: 5px;
-  flex-direction: row;
 `;
 
 export const TextContainer = styled.View`
   flex-direction: column;
   margin-left: 10px;
-  /* justify-content: space-around; */
   width: 50%;
   flex-grow: 1;
-  /* background-color: blue; */
 `;
 
 export const ItemContainer = styled.View`
   flex-direction: row;
-  margin-bottom: 10px;
+  justify-content: space-between;
+`;
+
+export const QtdContainer = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+`;
+
+export const SmallText = styled.Text`
+  font-size: 12px;
+  font-weight: 300;
 `;
 
 export const Img = styled.Image`
-  width: 75px;
-  height: 75px;
-  border-radius: 75px;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+`;
+
+export const Imgcontainer = styled.View`
+  width: 100%;
+  height: 45%;
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+`;
+
+export const Container = styled.View`
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+  padding: 8px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-radius: 5px;
+  background-color: ${colors.shadow};
 `;
 
 export const Label = styled.Text`
   font-weight: bold;
-  font-size: 15px;
-`;
-
-export const Imgcontainer = styled.View`
-  justify-content: center;
-  align-items: center;
-  /* background-color: green; */
+  font-size: 18px;
 `;
 
 export const SellingContainer = styled.View`
-  flex-direction: column;
-  justify-content: space-around;
+  flex-direction: row;
   align-items: center;
-  flex-grow: 1;
-  /* background-color: deepskyblue; */
+  margin-top: 5px;
+  justify-content: space-around;
+`;
+
+export const SellingContainerView = styled.View``;
+
+export const ItemNameView = styled.View`
+  flex-direction: row;
 `;
 
 export const SellButton = styled.Text`
-  /* text-align: right; */
-  font-weight: 100;
+  font-weight: bold;
   font-size: 15px;
 `;
 
 export const CustomButton = styled.TouchableOpacity`
   border: 0.3px;
-  color: silver;
+  margin: 3px;
+  flex-grow: 1;
+  background-color: white;
   border-radius: 5px;
-  width: 80%;
-  /* align-self: flex-end; */
-  justify-content: center;
+  max-height: 100%;
   align-items: center;
   padding: 5px;
 `;
@@ -75,4 +104,10 @@ export const EmptyListContainer = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${colors.secondary};
+`;
+
+export const Hr = styled.View`
+  width: 100%;
+  height: 1px;
+  background-color: silver;
 `;

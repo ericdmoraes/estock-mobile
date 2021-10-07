@@ -3,11 +3,11 @@ export default class Item {
     name: 'Item',
     primaryKey: 'id',
     properties: {
-      id: {type: 'int', indexed: true},
+      id: { type: 'int', indexed: true },
       name: 'string',
       qtd: 'int',
       selled: 'int',
-      acquired: 'int', // not used
+      acquired: 'int',
       price_to_sell: 'float',
       price_to_buy: 'float',
       picture: 'string',

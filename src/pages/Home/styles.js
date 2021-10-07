@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-import {colors} from '../../styles/index';
+import { colors } from '../../styles/index';
 
 export const Container = styled.View``;
 
@@ -16,11 +16,14 @@ export const TitleContainer = styled.View`
   padding: 10px;
 `;
 
+export const SmallText = styled.Text`
+  font-size: 10px;
+  font-weight: 100;
+`;
+
 export const ItemsContainer = styled.View`
-  /* justify-content: center; */
   align-items: center;
   padding: 10px;
-  /* margin-top: 10px; */
 `;
 
 export const Button = styled.TouchableOpacity`

@@ -1,29 +1,43 @@
 import React from 'react';
-import {Text, FlatList, Alert, View, TouchableOpacity} from 'react-native';
+import { Text, FlatList, Alert, TouchableOpacity } from 'react-native';
+
+import Share from 'react-native-share';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
+  CardBackground,
+  SellingContainerView,
+  QtdContainer,
   Container,
-  TextContainer,
   Img,
   Label,
   ItemContainer,
+  SmallText,
   Imgcontainer,
   SellingContainer,
   SellButton,
   CustomButton,
   EmptyListContainer,
+  Hr,
 } from './styles';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import getRealm from '../../services/realm';
 
-import {colors} from '../../styles/index';
+import { colors } from '../../styles/index';
 
-const ItemsList = ({items}) => {
-  const {navigate} = useNavigation();
+const ItemsList = ({ items }) => {
+  const { navigate } = useNavigation();
 
-  const deleteCategory = async (data) => {
+  const onSharePress = async item => {
+    return await Share.open({
+      message: `${item.description}`, // Note that according to the documentation at least one of "message" or "url" fields is required
+      url: `${item.picture}`,
+    });
+  };
+
+  const deleteCategory = async data => {
     const realm = await getRealm();
 
     Alert.alert('Deletar?', `Deseja realmente deletar ${data.name}?`, [
@@ -49,51 +63,87 @@ const ItemsList = ({items}) => {
 
     if (operation === 1) {
       var total = item.qtd + 1;
+      var acquired = item.acquired + 1;
     } else {
       var total = item.qtd - 1;
       selled = selled + 1;
     }
 
-    console.log(selled);
     realm.write(() => {
-      realm.create('Item', {id: item.id, qtd: total}, 'modified');
+      realm.create(
+        'Item',
+        { id: item.id, qtd: total, selled: selled, acquired: acquired },
+        'modified',
+      );
     });
   };
 
-  const renderItem = ({item}) => {
-    return (
-      <Container
-        onLongPress={() => deleteCategory(item)}
-        // onPress={() => navigate('CreateItem', {item})}
-      >
-        <Imgcontainer>
-          <Img source={{uri: `${item.picture}`}} />
-        </Imgcontainer>
-        <TextContainer>
-          <ItemContainer>
-            <Label>Nome:</Label>
-            <Text> {item.name}</Text>
-          </ItemContainer>
-          <ItemContainer style={{minHeight: 40, maxWidth: 150}}>
-            <Label>Descrição:</Label>
-            <Text> {item.description}</Text>
-          </ItemContainer>
-        </TextContainer>
+  const ItemImgView = ({ picture }) => (
+    <Imgcontainer>
+      <Img source={{ uri: `${picture}` }} />
+    </Imgcontainer>
+  );
+
+  const SellItemView = ({ item }) => (
+    <>
+      <SellingContainerView>
+        <SmallText>Ações:</SmallText>
         <SellingContainer>
-          <ItemContainer>
-            <Label>Quantidade:</Label>
-            <Text> {item.qtd}</Text>
-          </ItemContainer>
-          <CustomButton
-            style={{marginBottom: 3}}
-            onPress={() => setQuantity(item, 2)}>
-            <SellButton style={{color: 'red'}}>Vender</SellButton>
+          <CustomButton onPress={() => setQuantity(item, 2)}>
+            <SellButton style={{ color: 'green' }}>$ Vender</SellButton>
           </CustomButton>
           <CustomButton onPress={() => setQuantity(item, 1)}>
-            <SellButton style={{color: 'green'}}>Repor</SellButton>
+            <SellButton style={{ color: 'blue' }}>+ Repor</SellButton>
           </CustomButton>
+          <TouchableOpacity onPress={() => onSharePress(item)}>
+            <Icon
+              style={{ marginStart: 10 }}
+              name="share-alt"
+              color={colors.main}
+              size={32}
+            />
+          </TouchableOpacity>
         </SellingContainer>
-      </Container>
+      </SellingContainerView>
+    </>
+  );
+
+  const ItemNameView = ({ name, item, qtd }) => (
+    <Container>
+      <ItemContainer>
+        <QtdContainer>
+          <SmallText>Nome: </SmallText>
+          <Label>{name}</Label>
+        </QtdContainer>
+        <QtdContainer>
+          <SmallText>
+            Estoque: <Label>{qtd}</Label>
+          </SmallText>
+          <SmallText>
+            {' '}
+            / Vendido: <Label>{item.selled}</Label>
+          </SmallText>
+          <SmallText>
+            {' '}
+            / Total: <Label>{item.acquired}</Label>
+          </SmallText>
+        </QtdContainer>
+      </ItemContainer>
+      <SmallText>
+        Descrição: <Label>{item.description}</Label>
+      </SmallText>
+      <SellItemView item={item} />
+    </Container>
+  );
+
+  const renderItem = ({ item }) => {
+    return (
+      <CardBackground
+        activeOpacity={1}
+        onLongPress={() => deleteCategory(item)}>
+        <ItemImgView picture={item.picture} />
+        <ItemNameView item={item} name={item.name} qtd={item.qtd} />
+      </CardBackground>
     );
   };
 
@@ -103,7 +153,7 @@ const ItemsList = ({items}) => {
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={(item) => String(item.id)}
+          keyExtractor={item => String(item.id)}
         />
       ) : (
         <EmptyListContainer>

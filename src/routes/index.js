@@ -1,16 +1,16 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 // Navigators
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 
 // Components
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import IconE from 'react-native-vector-icons/Entypo';
 
 import Home from '../pages/Home/home';
-import AllProductsList from '../pages/AllProducts/AllProducts';
+import Charts from '../pages/Charts/Charts';
 
 import Items from '../pages/ItemsFromCategory/Items';
 import CreateItem from '../components/CreateItem/CreateItem';
@@ -18,7 +18,7 @@ import CreateItem from '../components/CreateItem/CreateItem';
 import CreateProductCategory from '../components/CreateCategory/createcategory';
 
 // styles
-import {colors} from '../styles/index';
+import { colors } from '../styles/index';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -38,8 +38,8 @@ const StackNavigator = () => {
       mode="modal"
       screenOptions={{
         headerTintColor: colors.secondary,
-        headerStyle: {backgroundColor: colors.main},
-        cardStyle: {backgroundColor: colors.secondary},
+        headerStyle: { backgroundColor: colors.main },
+        cardStyle: { backgroundColor: colors.secondary },
       }}>
       <Stack.Screen
         name="Home"
@@ -75,24 +75,24 @@ const TabNavigator = () => {
     <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={NavigatorOptions}
-        sceneContainerStyle={{backgroundColor: '#fff'}}>
+        sceneContainerStyle={{ backgroundColor: '#fff' }}>
         <Tab.Screen
           name="Main"
           component={StackNavigator}
           options={{
             tabBarLabel: 'Home',
-            tabBarIcon: ({color}) => (
+            tabBarIcon: ({ color }) => (
               <Icon name="home" size={30} color={color} />
             ),
           }}
         />
         <Tab.Screen
-          name="AllProducts"
-          component={AllProductsList}
+          name="Charts"
+          component={Charts}
           options={{
-            tabBarLabel: 'Settings',
-            tabBarIcon: ({color}) => (
-              <IconE name="shopping-bag" size={26} color={color} />
+            tabBarLabel: 'Charts',
+            tabBarIcon: ({ color }) => (
+              <IconE name="pie-chart" size={26} color={color} />
             ),
           }}
         />

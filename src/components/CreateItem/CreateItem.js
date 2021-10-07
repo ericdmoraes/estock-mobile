@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {View, Button, Alert} from 'react-native';
+import { View, Button, Alert } from 'react-native';
 
 import getRealm from '../../services/realm';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import CameraModal from '../../components/CameraModal/CameraModal';
 
@@ -21,11 +21,11 @@ import {
   FieldContainer,
 } from './styles';
 
-const CreateItem = ({route}) => {
+const CreateItem = ({ route }) => {
   const data = route.params.data;
   // const item = route.params.item;
 
-  const {goBack} = useNavigation();
+  const { goBack } = useNavigation();
 
   const [name, setName] = useState('');
   const [qtd, setQtd] = useState(0);
@@ -50,7 +50,7 @@ const CreateItem = ({route}) => {
             qtd: parseInt(qtd),
             selled: 0,
             price_to_sell: parseInt(sell),
-            acquired: 0,
+            acquired: parseInt(qtd),
             price_to_buy: parseInt(buy),
             picture: pic,
             category: data.name,
@@ -84,7 +84,7 @@ const CreateItem = ({route}) => {
         </FieldContainer>
 
         <HorizontalContainer>
-          <View style={{justifyContent: 'center'}}>
+          <View style={{ justifyContent: 'center' }}>
             <Label>Quatidade: </Label>
             <Input
               placeholder="Padrão 0 "
@@ -93,11 +93,11 @@ const CreateItem = ({route}) => {
             />
           </View>
 
-          <View style={{width: 150}}>
+          <View style={{ width: 150 }}>
             <Label>Foto:</Label>
             {pic.length > 0 ? (
               <ImageContainer onPress={() => setOpen(!open)}>
-                <Img source={{uri: pic}} />
+                <Img source={{ uri: pic }} />
               </ImageContainer>
             ) : (
               <Button
@@ -139,7 +139,7 @@ const CreateItem = ({route}) => {
         </HorizontalContainer>
 
         <Btn disableStatus={disable} disabled={disable} onPress={saveCategory}>
-          <Label style={{color: 'white', fontSize: 18}}>Criar</Label>
+          <Label style={{ color: 'white', fontSize: 18 }}>Criar</Label>
         </Btn>
       </Container>
     </>

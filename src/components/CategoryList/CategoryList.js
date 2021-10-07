@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
-import {Container, Label, ImageCategory, ImageContainer} from './styles';
+import { Container, Label, ImageCategory, ImageContainer } from './styles';
 
 import getRealm from '../../services/realm';
 
 import notFoundImg from '../../assets/notFoundImg';
 
-const CategoryList = ({data}) => {
-  const {navigate} = useNavigation();
+const CategoryList = ({ data }) => {
+  const { navigate } = useNavigation();
 
   const [catImg, setCatImg] = useState('');
 
@@ -52,7 +52,7 @@ const CategoryList = ({data}) => {
   return (
     <Container
       onLongPress={() => deleteCategory(data)}
-      onPress={() => navigate('Items', {data})}>
+      onPress={() => navigate('Items', { data })}>
       <ImageContainer>
         <ImageCategory
           source={{
