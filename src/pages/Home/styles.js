@@ -45,7 +45,7 @@ export const CategoryList = styled.FlatList`
 
 export const EmptyListView = styled.View`
   width: 100%;
-  height: 100px;
+  height: 150px;
   justify-content: center;
   align-items: center;
   background-color: ${colors.shadow};

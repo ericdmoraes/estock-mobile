@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-import {colors} from '../../styles/index';
+import { colors } from '../../styles/index';
 
 export const Container = styled.View`
   flex: 1;
@@ -8,17 +8,16 @@ export const Container = styled.View`
 `;
 
 export const Input = styled.TextInput`
-  background-color: white;
+  background-color: ${colors.shadow};
   border-width: 0.5px;
   border-bottom-color: #0a0a0a;
   margin-bottom: 20px;
-  background-color: white;
 `;
 
 export const Button = styled.TouchableOpacity`
   width: 95%;
   height: 60px;
-  background-color: ${({disableStatus}) => {
+  background-color: ${({ disableStatus }) => {
     if (disableStatus) {
       return 'silver';
     }
@@ -33,5 +32,6 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const Label = styled.Text`
-  font-size: 18px;
+  font-weight: bold;
+  font-size: 16px;
 `;

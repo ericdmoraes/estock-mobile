@@ -28,14 +28,22 @@ export const ItemContainer = styled.View`
 
 export const QtdContainer = styled.View`
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
   height: auto;
 `;
 
 export const SmallText = styled.Text`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+export const Label = styled.Text`
+  font-size: 16px;
+  font-weight: 100;
+  margin-left: 5px;
+`;
+
+export const LabelContainer = styled.View`
+  flex-direction: row;
 `;
 
 export const Img = styled.Image`
@@ -63,11 +71,6 @@ export const Container = styled.View`
   border-top-right-radius: 0px;
   border-radius: 5px;
   background-color: ${colors.shadow};
-`;
-
-export const Label = styled.Text`
-  font-weight: bold;
-  font-size: 18px;
 `;
 
 export const SellingContainer = styled.View`

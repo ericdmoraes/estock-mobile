@@ -20,10 +20,10 @@ import {
   Button as Btn,
   FieldContainer,
 } from './styles';
+import { colors } from '../../styles';
 
 const CreateItem = ({ route }) => {
   const data = route.params.data;
-  // const item = route.params.item;
 
   const { goBack } = useNavigation();
 
@@ -39,27 +39,34 @@ const CreateItem = ({ route }) => {
 
   const saveCategory = async () => {
     setDisable(true);
-
     const realm = await getRealm();
     try {
-      if (name.length > 0 && desc.length > 0) {
-        realm.write(() => {
-          realm.create('Item', {
-            id: Math.floor(Math.random() * 100000) + 1,
-            name: name,
-            qtd: parseInt(qtd),
-            selled: 0,
-            price_to_sell: parseInt(sell),
-            acquired: parseInt(qtd),
-            price_to_buy: parseInt(buy),
-            picture: pic,
-            category: data.name,
-            description: desc,
-            createdAt: Date.now(),
+      if (name.length > 0 && desc.length > 0 && pic.length > 0) {
+        if (qtd >= 0 && sell >= 0 && buy >= 0) {
+          realm.write(() => {
+            realm.create('Item', {
+              id: Math.floor(Math.random() * 100000) + 1,
+              name: name,
+              qtd: parseInt(qtd),
+              selled: 0,
+              price_to_sell: parseFloat(sell),
+              acquired: parseInt(qtd),
+              price_to_buy: parseFloat(buy),
+              picture: pic,
+              category: data.name,
+              description: desc,
+              createdAt: Date.now(),
+            });
           });
-        });
-        goBack();
-        setDisable(false);
+          goBack();
+          setDisable(false);
+        } else {
+          Alert.alert(
+            'Os valores precisam ser positivos',
+            'A quatidade do produto, o valor de compra e o valor de venda precisam ser positivos.',
+          );
+          setDisable(false);
+        }
       } else {
         Alert.alert(
           'Preencha todos os campos.',
@@ -76,13 +83,11 @@ const CreateItem = ({ route }) => {
   return (
     <>
       {open && <CameraModal setImage={setPic} close={setOpen} />}
-
       <Container>
         <FieldContainer>
           <Label>Nome:</Label>
           <Input onChangeText={setName} />
         </FieldContainer>
-
         <HorizontalContainer>
           <View style={{ justifyContent: 'center' }}>
             <Label>Quatidade: </Label>
@@ -92,7 +97,6 @@ const CreateItem = ({ route }) => {
               onChangeText={setQtd}
             />
           </View>
-
           <View style={{ width: 150 }}>
             <Label>Foto:</Label>
             {pic.length > 0 ? (
@@ -100,15 +104,12 @@ const CreateItem = ({ route }) => {
                 <Img source={{ uri: pic }} />
               </ImageContainer>
             ) : (
-              <Button
-                onPress={() => setOpen(!open)}
-                color="#000"
-                title="Take"
-              />
+              <Btn onPress={() => setOpen(!open)} color={colors.main}>
+                <Label style={{ color: 'white', fontSize: 18 }}>Capturar</Label>
+              </Btn>
             )}
           </View>
         </HorizontalContainer>
-
         <Label>Descrição: </Label>
         <Input
           maxLength={100}
@@ -117,7 +118,6 @@ const CreateItem = ({ route }) => {
           numberOfLines={4}
           onChangeText={setDesc}
         />
-
         <HorizontalContainer>
           <View>
             <Label>Preço de custo:</Label>
@@ -127,7 +127,6 @@ const CreateItem = ({ route }) => {
               onChangeText={setBuy}
             />
           </View>
-
           <View>
             <Label>Preço de venda:</Label>
             <Input
@@ -137,7 +136,6 @@ const CreateItem = ({ route }) => {
             />
           </View>
         </HorizontalContainer>
-
         <Btn disableStatus={disable} disabled={disable} onPress={saveCategory}>
           <Label style={{ color: 'white', fontSize: 18 }}>Criar</Label>
         </Btn>
