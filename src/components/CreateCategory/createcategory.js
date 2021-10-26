@@ -22,7 +22,6 @@ const CreateCategory = () => {
         const categoriesData = realm.objects('Category').sorted('name');
         const cat = categoriesData.map(item => item.name);
         const exists = cat.indexOf(categoryName);
-        console.log(`Categorias: ${cat}, existe: ${exists}`);
         if (exists === -1) {
           realm.write(() => {
             realm.create('Category', {

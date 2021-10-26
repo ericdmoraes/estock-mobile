@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { View, Button, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 
 import getRealm from '../../services/realm';
 
 import { useNavigation } from '@react-navigation/native';
 
 import CameraModal from '../../components/CameraModal/CameraModal';
-
-// import notFoundImg from '../../assets/notFoundImg';
 
 import {
   Container,
@@ -82,7 +80,7 @@ const CreateItem = ({ route }) => {
 
   return (
     <>
-      {open && <CameraModal setImage={setPic} close={setOpen} />}
+      {open && <CameraModal setImage={setPic} close={setOpen} status={open} />}
       <Container>
         <FieldContainer>
           <Label>Nome:</Label>

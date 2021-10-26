@@ -22,7 +22,7 @@ export const TextContainer = styled.View`
 `;
 
 export const ItemContainer = styled.View`
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
 `;
 
@@ -66,7 +66,7 @@ export const Container = styled.View`
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
-  padding: 8px;
+  padding: 5px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
   border-radius: 5px;
@@ -113,4 +113,20 @@ export const Hr = styled.View`
   width: 100%;
   height: 1px;
   background-color: silver;
+`;
+
+export const ModalContainer = styled.View`
+  background-color: ${colors.shadow};
+  border-radius: 20px;
+  height: 100%;
+  width: 100%;
+  padding: 35px;
+  align-items: center;
+`;
+
+export const ModalView = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: 22px;
 `;

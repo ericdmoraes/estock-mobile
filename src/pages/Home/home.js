@@ -4,19 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 // Components
-import { Text, View, ScrollView } from 'react-native';
+import { View } from 'react-native';
 
 // Services
 import getRealm from '../../services/realm';
 
 // Styles
 import {
-  Container,
   CategoryList as List,
   Title,
   TitleContainer,
   Button,
-  ItemsContainer,
   EmptyListView,
   Label,
   SmallText,
@@ -39,6 +37,7 @@ const Home = () => {
       const realm = await getRealm();
       const categoriesData = realm.objects('Category').sorted('name');
       const itemsData = realm.objects('Item').sorted('createdAt', true);
+      
 
       setCategoriesLength(categoriesData.length);
       setItems(itemsData || []);
@@ -56,7 +55,7 @@ const Home = () => {
   );
 
   const CategoriesList = () =>
-    categoriesLength > 0 ? (
+    categoriesLength ? (
       <View style={{ height: '22%' }}>
         <List
           data={categories}

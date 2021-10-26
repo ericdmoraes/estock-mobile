@@ -1,8 +1,10 @@
-import React from 'react';
-import { Text, FlatList, Alert, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, FlatList, Alert, TouchableOpacity } from 'react-native';
 
 import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import ModalItem from '../ModalItem/ModalItem';
 
 import {
   CardBackground,
@@ -21,14 +23,13 @@ import {
   LabelContainer,
 } from './styles';
 
-import { useNavigation } from '@react-navigation/native';
-
 import getRealm from '../../services/realm';
 
 import { colors } from '../../styles/index';
 
 const ItemsList = ({ items }) => {
-  const { navigate } = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [itemEdit, setItemEdit] = useState();
 
   const onSharePress = async item => {
     return await Share.open({
@@ -37,11 +38,11 @@ const ItemsList = ({ items }) => {
     });
   };
 
-  const deleteCategory = async data => {
+  const deleteCategory = async info => {
     const realm = await getRealm();
     Alert.alert(
       'O que deseja fazer?',
-      `O que você deseja com o item ${data.name}?`,
+      `O que você deseja com o item ${info.name}?`,
       [
         {
           text: 'Cancelar',
@@ -51,7 +52,7 @@ const ItemsList = ({ items }) => {
           text: 'Deletar',
           onPress: () => {
             realm.write(() => {
-              realm.delete(data);
+              realm.delete(info);
             });
           },
           style: 'default',
@@ -59,7 +60,8 @@ const ItemsList = ({ items }) => {
         {
           text: 'Editar',
           onPress: () => {
-            console.log('editar');
+            setModalVisible(true);
+            setItemEdit(info)
           },
           style: 'default',
         },
@@ -70,6 +72,7 @@ const ItemsList = ({ items }) => {
   const setQuantity = async (item, operation, value = 1) => {
     const realm = await getRealm();
     let selled = item.selled;
+
     if (operation === 1) {
       var total = item.qtd + 1;
       var acquired = item.acquired + 1;
@@ -84,6 +87,7 @@ const ItemsList = ({ items }) => {
         );
       }
     }
+
     realm.write(() => {
       realm.create(
         'Item',
@@ -134,21 +138,26 @@ const ItemsList = ({ items }) => {
   const ItemNameView = ({ name, item, qtd }) => (
     <Container>
       <ItemContainer>
-        <QtdContainer style={{ width: '25%' }}>
+        <QtdContainer>
           <SmallText>Nome: </SmallText>
           <Label>{name}</Label>
         </QtdContainer>
-        <QtdContainer style={{ width: '75%', justifyContent: 'space-around' }}>
-          <SmallText>Estoque:</SmallText>
-          <Label>{qtd}</Label>
-          <SmallText> Vendido:</SmallText>
-          <Label>{item.selled}</Label>
-          <SmallText> Total:</SmallText>
-          <Label>{item.acquired}</Label>
+        
+        <QtdContainer >
+          
+            <SmallText>Estoque:</SmallText>
+            <Label style={{ marginRight: 10 }}>{qtd}</Label>
+          
+            <SmallText> Vendido:</SmallText>
+            <Label style={{ marginRight: 10 }}>{item.selled}</Label>
+          
+            <SmallText> Total:</SmallText>
+            <Label style={{ marginRight: 10 }}>{item.acquired}</Label>
+          
         </QtdContainer>
+
       </ItemContainer>
       <LabelContainer>
-        <SmallText>Descrição:</SmallText>
         <Label>{item.description}</Label>
       </LabelContainer>
       <SellItemView item={item} />
@@ -157,7 +166,7 @@ const ItemsList = ({ items }) => {
 
   const renderItem = ({ item }) => {
     return (
-      <CardBackground activeOpacity={1}>
+      <CardBackground key={item.id} activeOpacity={1}>
         <ItemImgView picture={item.picture} />
         <ItemNameView item={item} name={item.name} qtd={item.qtd} />
       </CardBackground>
@@ -167,11 +176,20 @@ const ItemsList = ({ items }) => {
   return (
     <>
       {items.length > 0 ? (
-        <FlatList
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={item => String(item.id)}
-        />
+        <>
+          <FlatList
+            data={items}
+            renderItem={renderItem}
+            keyExtractor={item => String(item.id)}
+          />
+          {itemEdit && (
+            <ModalItem
+              item={itemEdit}
+              status={modalVisible}
+              onClose={setModalVisible}
+            />
+          )}
+        </>
       ) : (
         <EmptyListContainer>
           <Text>Você ainda não criou produtos.</Text>

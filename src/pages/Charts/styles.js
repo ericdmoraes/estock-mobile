@@ -1,7 +1,5 @@
 import styled from 'styled-components/native';
 
-import { colors } from '../../styles/index';
-
 export const Title = styled.Text`
   font-weight: bold;
   font-size: 22px;
@@ -23,6 +21,13 @@ export const Container = styled.View`
 export const ItemsDataContainer = styled.View``;
 
 export const DataLabel = styled.Text`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
 `;
+
+export const NoItemsContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+`;
+
